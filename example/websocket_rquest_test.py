@@ -20,10 +20,10 @@ class OrangexTest(unittest.TestCase):
     async def sub_depth(self):
         symbols = ['BTC-USDT-PERPETUAL']
         asyncio.create_task(ws_async.subscribe_depth(symbols))
-        await asyncio.sleep(100)
+        await asyncio.sleep(1000)
 
     def test_sub_depth(self):
-        asyncio.run(self.sub_private_trade())
+        asyncio.run(self.sub_depth())
 
 
 if __name__ == '__main__':

@@ -65,7 +65,7 @@ class WebsocketClient(object):
     async def receive_ws_message(self):
         logging.info('start call receive_private_ws_message')
         async with websockets.connect(Urls.ws_base) as websocket:
-            await self.auth(wait_time=2, websocket_connection=websocket)
+            # await self.auth(wait_time=2, websocket_connection=websocket)
             asyncio.create_task(self.ping())
             self.ws = websocket
             while True:
@@ -143,10 +143,13 @@ class WebsocketClient(object):
             return
         current_depth: SortedDict = self.depths[instrument_symbol].get(side)
         for a in depth:
-            if float(a[1]) == 0:
-                current_depth.pop(a[0], 0)
-            else:
+            if len(a) == 2:
                 current_depth[float(a[0])] = float(a[1])
+            else:
+                if a[0] == 'delete':
+                    current_depth.pop(float(a[1]), 0)
+                else:
+                    current_depth[float(a[1])] = float(a[2])
         return current_depth
 
     async def start_build_depth(self, symbol):
@@ -182,7 +185,7 @@ class WebsocketClient(object):
                 print(
                     f"Updated depth for {symbol}, asks:{current_depth['asks'].items()[0:5]}, bids:{current_depth['bids'].items()[0:5]}")
         except Exception:
-            traceback.format_exc()
+            print(traceback.format_exc())
         await asyncio.sleep(0.1)
         self.__full_data_needs[symbol] = False
 
