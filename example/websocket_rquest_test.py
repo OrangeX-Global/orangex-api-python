@@ -17,6 +17,14 @@ class OrangexTest(unittest.TestCase):
     def test_private_trade(self):
         asyncio.run(self.sub_private_trade())
 
+    async def sub_depth(self):
+        symbols = ['BTC-USDT-PERPETUAL']
+        asyncio.create_task(ws_async.subscribe_depth(symbols))
+        await asyncio.sleep(100)
+
+    def test_sub_depth(self):
+        asyncio.run(self.sub_private_trade())
+
 
 if __name__ == '__main__':
     test_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)))

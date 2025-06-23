@@ -12,6 +12,13 @@ class WebsocketAsync(object):
     async def subscribe_private_trades(self, symbols: list = None):
         if not symbols:
             return
-        asyncio.create_task(self.ws_client.run_private())
+        asyncio.create_task(self.ws_client.run_subscribe())
         topics = list(map(lambda s: f'user.trades.{s}.raw', symbols))
         await self.ws_client.subscribe(method='/private/subscribe', topics=topics)
+
+    async def subscribe_depth(self, symbols: list = None):
+        if not symbols:
+            return
+        asyncio.create_task(self.ws_client.run_subscribe())
+        topics = list(map(lambda s: f'book.{s}.raw', symbols))
+        await self.ws_client.subscribe(method='/public/subscribe', topics=topics)

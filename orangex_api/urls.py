@@ -13,6 +13,7 @@ class Urls(object):
     ws_base = 'wss://api.orangex.com/ws/api/v1'
 
     token = Path(base, '/public/auth')
+    depth = Path(base, '/public/get_order_book')
     wallet_transfer = Path(base, '/private/submit_transfer')
     withdraw = Path(base, '/private/withdraw')
     leverage = Path(base, '/private/adjust_perpetual_leverage')
