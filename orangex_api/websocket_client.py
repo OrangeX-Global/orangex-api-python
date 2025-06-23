@@ -65,7 +65,7 @@ class WebsocketClient(object):
     async def receive_ws_message(self):
         logging.info('start call receive_private_ws_message')
         async with websockets.connect(Urls.ws_base) as websocket:
-            # await self.auth(wait_time=2, websocket_connection=websocket)
+            await self.auth(wait_time=2, websocket_connection=websocket)
             asyncio.create_task(self.ping())
             self.ws = websocket
             while True:
